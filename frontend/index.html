@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Deep Trace | Forensic Deepfake Analysis</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+    <!-- Health Banner -->
+    <div id="healthBanner" class="warning-banner hidden">
+        <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: text-bottom;">warning</span>
+        Model weights not loaded — predictions may be unreliable. Ensure backend is configured correctly.
+    </div>
+
+    <!-- Shared Top Navbar -->
+    <header class="top-nav">
+        <div class="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center w-full">
+            <div class="flex items-center gap-2 cursor-pointer" data-view="view-landing">
+                <span class="material-symbols-outlined text-primary text-3xl filled">android_fingerprint</span>
+                <span class="font-headline font-bold text-xl uppercase tracking-widest text-on-surface">Deep Trace</span>
+            </div>
+            
+            <nav class="hidden md:flex gap-12">
+                <a href="#" class="nav-link" data-view="view-upload">Analyze</a>
+                <!-- Future views -->
+                <span class="nav-link" style="cursor:not-allowed; opacity:0.5;">History</span>
+                <span class="nav-link" style="cursor:not-allowed; opacity:0.5;">Docs</span>
+            </nav>
+            
+            <div class="flex items-center">
+                <span class="material-symbols-outlined text-on-surface-variant cursor-pointer">account_circle</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- ============================================== -->
+        <!-- VIEW 1: LANDING PAGE                           -->
+        <!-- ============================================== -->
+        <section id="view-landing" class="view flex-col items-center">
+            
+            <div class="relative w-full max-w-7xl px-6 py-24 flex flex-col items-center text-center">
+                <div class="absolute top-1/2 left-1/2" style="transform:translate(-50%, -50%); width:600px; height:600px; background:rgba(0,218,243,0.05); filter:blur(100px); border-radius:50%; pointer-events:none;"></div>
+                
+                <div class="relative z-10 flex flex-col items-center max-w-4xl">
+                    <div style="display:inline-flex; align-items:center; gap:0.75rem; padding:0.5rem 1rem; background:var(--surface-container-low); border:1px solid rgba(65,71,84,0.1); border-radius:999px; margin-bottom:2rem;">
+                        <span style="width:8px; height:8px; background:var(--primary); border-radius:50%;" class="animate-pulse-ring"></span>
+                        <span class="font-label text-xs font-medium tracking-widest uppercase text-on-surface-variant">System Status: Active Monitoring</span>
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-7xl font-headline font-bold text-on-surface tracking-tight mb-8">
+                        Subtle Deepfake Analysis
+                    </h1>
+                    
+                    <p class="text-lg text-on-surface-variant font-body max-w-2xl mb-12">
+                        Detect manipulated media with AI precision. Our forensic engine illuminates inconsistencies invisible to the human eye, ensuring digital integrity in every frame.
+                    </p>
+                    
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <button id="startAnalysisBtn" class="btn-primary">
+                            Start Analysis
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CSS Art Section instead of external image -->
+            <div class="w-full max-w-7xl px-6 pb-24">
+                <div class="glass-panel" style="height: 400px; position:relative; overflow:hidden;">
+                    <div class="css-hero-art">
+                        <div class="css-hero-wireframe"></div>
+                        <div class="css-hero-wireframe"></div>
+                        <div class="css-hero-wireframe"></div>
+                    </div>
+                    <div class="scan-line" style="height:4px; opacity:0.5;"></div>
+                    <div style="position:absolute; bottom:2rem; left:2rem;">
+                        <h3 class="font-headline text-2xl font-bold text-on-surface">Forensic Engine v4.2</h3>
+                        <p class="text-on-surface-variant font-body">Analyzing frame consistency and metadata fingerprints</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- VIEW 2: UPLOAD SECTION                         -->
+        <!-- ============================================== -->
+        <section id="view-upload" class="view flex-col items-center justify-center py-12 px-6">
+            <div class="w-full max-w-2xl flex flex-col gap-8 relative z-10" style="margin-top:2rem;">
+                
+                <header class="text-center" style="margin-bottom:1rem;">
+                    <h1 class="text-4xl font-headline font-bold text-on-surface tracking-tight mb-4">
+                        Forensic Media <span class="text-primary">Validation</span>
+                    </h1>
+                    <p class="text-on-surface-variant font-body text-lg">
+                        Verify the authenticity of digital artifacts via neural analysis.
+                    </p>
+                </header>
+
+                <div class="glass-panel" style="padding:0.5rem; background:var(--surface-container);">
+                    <div id="uploadDropzone" class="upload-dropzone relative">
+                        
+                        <!-- Empty State -->
+                        <div id="emptyState" class="flex flex-col items-center gap-6 text-center w-full">
+                            <div class="upload-icon-wrapper">
+                                <span class="material-symbols-outlined text-4xl">cloud_upload</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-headline font-semibold text-on-surface mb-2">Drag & drop media source</h3>
+                                <p class="text-on-surface-variant text-sm font-label tracking-wide">SUPPORTED FORMATS: MP4, MOV, JPG, PNG</p>
+                            </div>
+                            <input type="file" id="fileInput" class="hidden" accept=".mp4,.mov,.jpg,.jpeg,.png" />
+                            <button id="browseBtn" class="btn-secondary mt-4">
+                                <span class="material-symbols-outlined">upload_file</span>
+                                Browse Files
+                            </button>
+                        </div>
+
+                        <!-- Preview State -->
+                        <div id="previewContainer" class="hidden w-full flex-col gap-6">
+                            <div class="relative w-full" style="aspect-ratio: 16/9; border-radius:var(--radius-md); overflow:hidden; background:var(--surface-container-high);">
+                                <!-- Placeholder for preview, using CSS to make it look technical -->
+                                <div style="position:absolute; inset:0; background:radial-gradient(circle, rgba(0,218,243,0.1) 0%, transparent 70%); display:flex; align-items:center; justify-content:center;">
+                                    <span class="material-symbols-outlined text-primary text-6xl">movie</span>
+                                </div>
+                                <div id="scanline" class="scan-line hidden"></div>
+                            </div>
+                            
+                            <div class="flex justify-between items-center" style="padding: 0 0.5rem;">
+                                <div class="flex flex-col">
+                                    <span id="filenameDisplay" class="text-on-surface font-medium">filename.mp4</span>
+                                    <span id="filesizeDisplay" class="text-on-surface-variant text-xs">0.0 MB</span>
+                                </div>
+                                <button id="removeBtn" style="color:rgba(255,180,171,0.7); padding:0.5rem; border-radius:var(--radius-full); transition:all 0.2s;" onmouseover="this.style.color='var(--error)'; this.style.backgroundColor='rgba(255,180,171,0.1)'" onmouseout="this.style.color='rgba(255,180,171,0.7)'; this.style.backgroundColor='transparent'">
+                                    <span class="material-symbols-outlined">delete</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <!-- Error Message -->
+                <div id="uploadError" class="hidden bg-error-container text-error p-4 text-center rounded-lg font-label text-sm"></div>
+
+                <div class="flex flex-col items-center gap-4">
+                    <button id="analyzeBtn" class="btn-primary w-full" style="padding:1.5rem;">
+                        <span id="analyzeBtnText">Analyze File</span>
+                        <span id="analyzeBtnIcon" class="material-symbols-outlined">arrow_forward</span>
+                    </button>
+                    
+                    <div class="flex items-center gap-6 text-on-surface-variant" style="opacity:0.6; margin-top:1rem;">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">verified_user</span>
+                            <span class="text-xs font-label uppercase tracking-wider">Secure</span>
+                        </div>
+                        <div style="width:1px; height:12px; background:var(--outline-variant);"></div>
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">database</span>
+                            <span class="text-xs font-label uppercase tracking-wider">No Retention</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- VIEW 3: RESULTS SECTION                        -->
+        <!-- ============================================== -->
+        <section id="view-result" class="view flex-col items-center pb-24">
+            
+            <div class="w-full flex flex-col items-center justify-center text-center mb-16 pt-12 px-6">
+                <div style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.25rem 1rem; background:var(--surface-container-low); border-radius:999px; margin-bottom:1.5rem;">
+                    <span style="width:8px; height:8px; background:var(--primary); border-radius:50%;" class="animate-pulse-ring"></span>
+                    <span class="font-label text-xs tracking-widest uppercase text-on-surface-variant">Forensic Audit Complete</span>
+                </div>
+                <h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tight text-on-surface mb-4">Detection Results</h1>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 w-full max-w-7xl px-6">
+                
+                <!-- Left Panel: Main Verdict -->
+                <div class="md:col-span-8 flex flex-col gap-6">
+                    <div class="glass-panel p-8 flex flex-col md:flex-row items-center gap-12 relative overflow-hidden">
+                        <div style="position:absolute; top:0; left:0; width:100%; height:2px; background:linear-gradient(90deg, transparent, var(--primary), transparent); opacity:0.2;"></div>
+                        
+                        <div class="relative flex-shrink-0">
+                            <!-- SVG Circle -->
+                            <svg class="circular-chart" viewBox="0 0 192 192" style="width:192px; height:192px; transform:rotate(-90deg);">
+                                <circle class="circle-bg" cx="96" cy="96" r="88" />
+                                <circle id="resCircle" class="circle" cx="96" cy="96" r="88" />
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                                <span id="resCertainty" class="font-headline text-3xl font-bold text-on-surface">--%</span>
+                                <span class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Certainty</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-grow text-center md:text-left">
+                            <div id="resChip" class="chip-fake-lg mb-6">---</div>
+                            <h2 id="resTitle" class="font-headline text-2xl font-medium mb-3">Analysis Complete</h2>
+                            <p id="resDesc" class="font-body text-on-surface-variant leading-relaxed">
+                                Results compiled based on neural network analysis.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Meta Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="feature-card">
+                            <span class="material-symbols-outlined text-primary mb-4">microscope</span>
+                            <div class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1">Method</div>
+                            <div class="font-headline font-semibold text-on-surface">CNN Ensemble</div>
+                        </div>
+                        <div class="feature-card">
+                            <span class="material-symbols-outlined text-primary mb-4">history_edu</span>
+                            <div class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1">Processing</div>
+                            <div class="font-headline font-semibold text-on-surface">Real-time Inference</div>
+                        </div>
+                        <div class="feature-card">
+                            <span class="material-symbols-outlined text-primary mb-4">verified_user</span>
+                            <div class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1">Audit ID</div>
+                            <div class="font-headline font-semibold text-on-surface">#DT-${Math.floor(Math.random()*10000)}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Artifact & Actions -->
+                <div class="md:col-span-4 flex flex-col gap-6">
+                    <div class="feature-card" style="aspect-ratio:1; display:flex; flex-direction:column; justify-content:flex-end; padding:1.5rem; background:var(--surface-container-highest); position:relative; overflow:hidden;">
+                        <div style="position:absolute; inset:0; background:radial-gradient(circle at top right, rgba(0,218,243,0.1), transparent);"></div>
+                        <div style="position:relative; z-index:10;">
+                            <div class="font-label text-xs uppercase tracking-widest text-primary mb-2">Analyzed Media</div>
+                            <div id="resFilename" class="font-headline text-lg font-medium text-on-surface" style="word-break:break-all;">---</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col gap-4" style="margin-top:auto;">
+                        <button id="btnAnalyzeAnother" class="btn-primary w-full">
+                            <span class="material-symbols-outlined">refresh</span>
+                            Analyze Another
+                        </button>
+                        <button id="btnExportReport" class="btn-secondary w-full">
+                            <span class="material-symbols-outlined">download</span>
+                            Export Report
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- Detection Vectors (Only shown if FAKE) -->
+            <div id="vectorSection" class="w-full max-w-7xl px-6 mt-16 hidden">
+                <div class="flex items-center mb-8">
+                    <h3 class="font-headline text-2xl font-bold uppercase tracking-wider text-on-surface">Detection Vectors</h3>
+                    <div style="flex-grow:1; height:1px; background:rgba(65,71,84,0.3); margin-left:2rem;"></div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="feature-card" style="display:flex; gap:1.5rem;">
+                        <div class="feature-icon-wrapper text-error">
+                            <span class="material-symbols-outlined">face</span>
+                        </div>
+                        <div style="flex-grow:1;">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-headline font-bold uppercase tracking-wide text-on-surface">Temporal Consistency</h4>
+                                <span class="text-error font-headline font-bold">High</span>
+                            </div>
+                            <div class="w-full h-1_5 bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="h-full bg-error" style="width:90%"></div>
+                            </div>
+                            <p class="font-body text-sm text-on-surface-variant mt-4">Irregular blink patterns and mismatched ocular reflections suggest algorithmic synthesis of facial keypoints over time.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card" style="display:flex; gap:1.5rem;">
+                        <div class="feature-icon-wrapper text-tertiary">
+                            <span class="material-symbols-outlined">waves</span>
+                        </div>
+                        <div style="flex-grow:1;">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-headline font-bold uppercase tracking-wide text-on-surface">Spectral Metadata</h4>
+                                <span class="text-tertiary font-headline font-bold">Med</span>
+                            </div>
+                            <div class="w-full h-1_5 bg-surface-container-highest rounded-full overflow-hidden">
+                                <div class="h-full bg-tertiary" style="width:60%"></div>
+                            </div>
+                            <p class="font-body text-sm text-on-surface-variant mt-4">Noise floor distribution shows anomalies. Metadata headers display signs of re-encoding characteristic of generative models.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Shared Footer -->
+    <footer style="border-top:1px solid rgba(65,71,84,0.1); padding: 3rem 0; background:var(--surface);">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-2" style="opacity:0.5;">
+                <span class="material-symbols-outlined text-sm">copyright</span>
+                <span class="font-label text-xs uppercase tracking-widest">Deep Trace Intelligence <span id="copyYear"></span></span>
+            </div>
+            <!-- Removed fake links, keeping it clean -->
+        </div>
+    </footer>
+
+    <!-- App Logic -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

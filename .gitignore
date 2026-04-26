@@ -1,0 +1,21 @@
+# Environments
+venv/
+env/
+.env
+
+# Python Caches
+__pycache__/
+*.pyc
+
+# Jupyter
+*.ipynb_checkpoints
+
+# Datasets and Outputs
+data/
+dataset/
+DEEP_FAKE_OUTPUT/
+temp_uploads/
+
+# Model Weights
+models/*.pth
+models/*.pt
