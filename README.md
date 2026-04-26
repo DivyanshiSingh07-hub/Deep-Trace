@@ -164,10 +164,11 @@ During training or API inference, Deep-Trace provides clear, structured logging.
 ## 🤝 Author / Credits
 
 Developed by **TEAM - TRUTH BYTES**. 
+
 MEMBERS:
-Tushar Kumar Singh,
-Anushreya Tomar,
-Khushi Sharma,
-Divyanshi Singh
+1. Tushar Kumar Singh
+2. Anushreya Tomar
+3. Khushi Sharma
+4. Divyanshi Singh
 
 Contributions, issues, and feature requests are highly welcome! Feel free to check the [issues page](https://github.com/DivyanshiSingh07/Deep-Trace/issues) if you want to contribute.
