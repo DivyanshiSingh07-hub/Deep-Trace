@@ -1,21 +1,75 @@
-# Environments
+# -----------------------------
+
+# 🐍 Python Environments
+
+# -----------------------------
+
 venv/
 env/
 .env
 
-# Python Caches
-__pycache__/
+# -----------------------------
+
+# 🧠 Python Cache Files
+
+# -----------------------------
+
+**pycache**/
 *.pyc
+*.pyo
+*.pyd
 
-# Jupyter
-*.ipynb_checkpoints
+# -----------------------------
 
-# Datasets and Outputs
+# 📓 Jupyter Notebook
+
+# -----------------------------
+
+.ipynb_checkpoints/
+
+# -----------------------------
+
+# 📂 Dataset & Generated Files
+
+# -----------------------------
+
 data/
 dataset/
 DEEP_FAKE_OUTPUT/
 temp_uploads/
 
-# Model Weights
+# -----------------------------
+
+# 🤖 Model Weights
+
+# -----------------------------
+
 models/*.pth
 models/*.pt
+
+# -----------------------------
+
+# 🧾 Logs & Temp Files
+
+# -----------------------------
+
+*.log
+*.tmp
+
+# -----------------------------
+
+# 🖥️ OS Files
+
+# -----------------------------
+
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+
+# ⚙️ IDE / Editor Files
+
+# -----------------------------
+
+.vscode/
+.idea/
