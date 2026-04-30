@@ -1,0 +1,49 @@
+# 🔹 Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 🔹 Virtual environment
+venv/
+.env/
+.env
+
+# 🔹 Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# 🔹 VS Code settings
+.vscode/
+
+# 🔹 Dataset (VERY IMPORTANT - don’t push this)
+deepfake_dataset/
+train/
+val/
+test_samples/
+new_data/
+
+# 🔹 Temporary uploads / outputs
+temp_uploads/
+*.log
+
+# 🔹 Model files (large)
+*.pt
+*.pth
+*.h5
+*.ckpt
+
+# 🔹 Images / videos (if generated or large)
+*.mp4
+*.avi
+*.mov
+*.png
+*.jpg
+*.jpeg
+
+# 🔹 OS files
+.DS_Store
+Thumbs.db
+
+# 🔹 Build / dist
+build/
+dist/
